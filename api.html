@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  </head>
+  <body>
+      <div class="container">
+          <div class="jumbotron jumbotron-fluid">
+              <div class="container">
+                  <h1 class="display-3">Hiking Project API</h1>
+                  <p class="lead">Working with the Hiking Project API</p>
+                  <hr class="my-2">
+                  <p>More info</p>
+                  <!-- <p class="lead">
+                      <a class="btn btn-primary btn-lg" href="Jumbo action link" role="button">Jumbo action name</a>
+                  </p> -->
+              </div>
+          </div>
+
+      </div>
+      <table id="trailTable" class="table">
+          <thead>
+              <tr>
+                  <th>Trail Name</th>
+                  <th>Longitude</th>
+                  <th>Latitude</th>
+              </tr>
+          </thead>
+          <tbody id="tbody">
+              <tr>
+                  <td scope="row"></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td scope="row"></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+          </tbody>
+      </table>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script>
+        
+        let HikeObj = [];
+        let arrTrail = [];
+        // Build a query with latitude, longitude and max distance 
+        function buildQueryURL() {
+            // var queryURL = "https://www.hikingproject.com/data/get-trails?lat=40.0274&lon=-105.2519&maxDistance=10&key=200361824-e97f84319ca562e9ed253ce31ddb2d4c";
+            var queryURL = "https://www.hikingproject.com/data/get-trails?";
+            let queryParms = {};
+
+            queryParms.lat = "40.0274";
+            queryParms.lon = "-105.2519";
+            queryParms.maxDistance = "10";
+            queryParms.key = "200361824-e97f84319ca562e9ed253ce31ddb2d4c";
+            queryParms.maxResults = "10";
+            console.log("---------------\nURL: " + queryURL + "\n---------------");
+            console.log(queryURL + $.param(queryParms));
+            
+            return queryURL + $.param(queryParms);
+
+        }
+        function getTrailsbyLocation(HikeData) {
+            console.log(HikeData);
+            console.log(HikeData.trails);
+            console.log(HikeData.trails.length);
+            for (x in HikeData.trail) {
+                const element = HikeData.trail[x];
+                console.log("for In: ",element.longitude + ":" + element.latitude);
+                // object.keys(element).array.forEach(element1 => {
+                    console.log("Trail key: value --", element1 + " : " +  element[element1]);
+                // });
+            }
+
+            for (let i = 0; i < HikeData.trails.length; i++) {
+                const element = HikeData.trails[i];
+                console.log("for Loop: ", element.longitude + ":" + element.latitude);
+                // let keyName = Object.keys(element)
+                // console.log(Object.keys(element));
+                let trail = { "name" : element.name, "latitude" : element.latitude
+                            , "longitude": element.longitude };
+                arrTrail.push(trail);
+
+
+                // This works: iterate through the object properties, values =>
+                // for (const x in element) {
+                //     if (element.hasOwnProperty(x)) {
+                //         const element2 = element[x];
+                //         console.log("for in: Object", x + ":" + element2);
+                //     }
+                // }
+
+                // This also works, 
+                // Object.keys(element).forEach(function(key) {
+                //     console.log("forEach: ", key, element[key]);
+                // });
+            }
+            console.log("arrTrails: ", arrTrail);
+            for (let i = 0; i < arrTrail.length; i++) {
+                const element = arrTrail[i];
+                
+                const tableRow = $("<tr>").attr("scope", "row");
+                const tableCell = $("<td>").text(element.name);
+                tableRow.append(tableCell);
+                let tableCell2 = $("<td>").text(element.latitude);
+                tableRow.append(tableCell2);
+                let tableCell3 = $("<td>").text(element.longitude);
+                tableRow.append(tableCell3);
+                $("#tbody").append(tableRow);
+            }
+            
+        }
+
+
+        function getTrailsByID(HikingData) {
+            // Get from the form the number of results to display
+            // API doesn't have a "limit" parameter, so we have to do this ourselves
+           
+
+            // Log the NYTData to console, where it will show up as an object
+            console.log("71 HikingData: ", HikingData);
+            console.log("------------------------------------");
+            // let HikeData = JSON.parse(JSON.stringify(HikingData));
+            for (x in HikingData) {
+                const element = HikingData[x];
+                if ((typeof element.name) !== "undefined") {
+                    console.log("name: ", element.name);
+                    console.log(element.conditionColor);
+                    console.log(element.conditionDetails);
+                    console.log(element.conditionStatus);
+                    console.log(element.conditionImg);
+                    console.log(element.id);
+                    console.log(element.conditionDate);
+                    console.log("------------------------------------");
+                
+                    
+                }
+
+            } 
+            
+            console.log(HikingData[0]);
+            // console.log(HikingData.doc[0]);
+            // console.log(HikingData.response.doc[0]);
+        }
+
+        // this is getTrailsByID
+        // Make the AJAX request to the API - GETs the JSON data at the queryURL.
+        // The data then gets passed as an argument to the getTrailsByID function
+        // $.ajax({
+        //     url: "https://www.hikingproject.com/data/get-conditions?ids=7001635,7002742,7000108,7002175,7005207&key=200361824-e97f84319ca562e9ed253ce31ddb2d4c",
+        //     //url: queryURL,
+        //     method: "GET"
+        // }).then(getTrailsByID);
+        let myURL = buildQueryURL();
+        console.log("myURL", myURL);
+       $.ajax({
+            url: myURL,
+            method: "GET"
+        }).then(getTrailsbyLocation);
+        
+        
+    </script>
+</body>
+</html>
