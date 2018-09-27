@@ -21,19 +21,20 @@ function buildQueryURL() {
     queryParms.maxResults = "20";
     console.log("---------------\nURL: " + queryURL + "\n---------------");
     console.log(queryURL + $.param(queryParms));
-    
+
     return queryURL + $.param(queryParms);
 
 }
+
 function getTrailsbyLocation(HikeData) {
     console.log(HikeData);
     console.log(HikeData.trails);
     console.log(HikeData.trails.length);
     for (x in HikeData.trail) {
         const element = HikeData.trail[x];
-        console.log("for In: ",element.longitude + ":" + element.latitude);
+        console.log("for In: ", element.longitude + ":" + element.latitude);
         // object.keys(element).array.forEach(element1 => {
-            console.log("Trail key: value --", element1 + " : " +  element[element1]);
+        console.log("Trail key: value --", element1 + " : " + element[element1]);
         // });
     }
 
@@ -42,8 +43,11 @@ function getTrailsbyLocation(HikeData) {
         console.log("for Loop: ", element.longitude + ":" + element.latitude);
         // let keyName = Object.keys(element)
         // console.log(Object.keys(element));
-        let trail = { "name" : element.name, "latitude" : element.latitude
-                    , "longitude": element.longitude };
+        let trail = {
+            "name": element.name,
+            "latitude": element.latitude,
+            "longitude": element.longitude
+        };
         arrTrail.push(trail);
 
 
@@ -63,7 +67,7 @@ function getTrailsbyLocation(HikeData) {
     console.log("arrTrails: ", arrTrail);
     // for (let i = 0; i < arrTrail.length; i++) {
     //     const element = arrTrail[i];
-        
+
     //     const tableRow = $("<tr>").attr("scope", "row");
     //     const tableCell = $("<td>").text(element.name);
     //     tableRow.append(tableCell);
@@ -73,14 +77,14 @@ function getTrailsbyLocation(HikeData) {
     //     tableRow.append(tableCell3);
     //     $("#tbody").append(tableRow);
     // }
-    
+
 }
 
 
 function getTrailsByID(HikingData) {
     // Get from the form the number of results to display
     // API doesn't have a "limit" parameter, so we have to do this ourselves
-   
+
 
     // Log the NYTData to console, where it will show up as an object
     console.log("71 HikingData: ", HikingData);
@@ -97,12 +101,12 @@ function getTrailsByID(HikingData) {
             console.log(element.id);
             console.log(element.conditionDate);
             console.log("------------------------------------");
-        
-            
+
+
         }
 
-    } 
-    
+    }
+
     console.log(HikingData[0]);
     // console.log(HikingData.doc[0]);
     // console.log(HikingData.response.doc[0]);
@@ -236,3 +240,12 @@ function initAutocomplete() {
     }
 }
 // end map stuff
+
+$('.dropdown-menu').hide();
+
+$('.close').click(function () {
+    $('.infoBox').animate({
+        height: 'toggle'
+    });
+
+});
