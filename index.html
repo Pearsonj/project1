@@ -6,60 +6,70 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Hiking App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
 
 </head>
 
 <body>
-    <div class="column  header">
-        <p>Welcome To The Hiking app!</p>
-        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    </div>
     <div class="column map">
-        <div id="map"></div>
-    </div>
-
-    <div class="column infoBox">
-        <img id="image" src="https://53744bf91d44b81762e0-fbbc959d4e21c00b07dbe9c75f9c0b63.ssl.cf3.rackcdn.com/media/F3/F32D5164-7D9F-4E46-BFFD-42F3C7852731/Presentation.Large/Adult-female-Atlantic-spotted-dolphin-with-calf.jpg"
-            alt="">
-        <div id="info">
-            <span>Trail Rating:</span>
-            <p id="rating"> here is some info</p>
-            <span>Condition:</span>
-            <p id="condition">here is some info</p>
-            <span>Pet Friendly:</span>
-            <p id="pet friendly">here is some info</p>
-            <span>Trail Summary:</span>
-            <p id="summary">here is some info</p>
-        </div>
-
-        <div id="commentSection">
-            <p id="nameInput">
-                <span>Name:</span>
-                <input class="input" type="text" placeholder="Text input">
+        <header>
+            <p class="header">
+                The Hiking App
             </p>
-            <textarea name="comment" class="fas fa-align-left" id="comment" cols="53" rows="5"></textarea>
-            <a id="button">Submit</a>
+        </header>
+        <div id="map"></div>
 
-            <table id="displayComments" style="width: 100%">
-                <tr>
-                    <th>Name:</th>
-                    <th>comment:</th>
-                </tr>
-                <tr id="comment-display">
-                    <td>josh</td>
-                    <td>this was a nice hike</td>
-                </tr>
-            </table>
+
+
+
+        <div class="column infoBox">
+            <button type="button" class="close" aria-label="Close">
+                Close Window
+            </button>
+            <img id="image" src="https://53744bf91d44b81762e0-fbbc959d4e21c00b07dbe9c75f9c0b63.ssl.cf3.rackcdn.com/media/F3/F32D5164-7D9F-4E46-BFFD-42F3C7852731/Presentation.Large/Adult-female-Atlantic-spotted-dolphin-with-calf.jpg"
+                alt="">
+            <div id="info">
+                <span>Trail Rating:</span>
+                <p id="rating"> here is some info</p>
+                <span>Condition:</span>
+                <p id="condition">here is some info</p>
+                <span>Pet Friendly:</span>
+                <p id="pet friendly">here is some info</p>
+                <span>Trail Summary:</span>
+                <p id="summary">here is some info</p>
+            </div>
+
+            <div id="commentSection">
+                <p id="nameInput">
+                    <span>Name:</span>
+                    <input class="input" type="text" placeholder="Text input">
+                </p>
+                <span>Leave a commet!</span>
+                <textarea name="comment" class="fas fa-align-left" id="comment" cols="53" rows="5"></textarea>
+                <a id="button">Submit</a>
+
+                <table id="displayComments" style="width: 100%">
+                    <tr>
+                        <th>Name:</th>
+                        <th>comment:</th>
+                    </tr>
+                    <tr id="comment-display">
+                        <td>josh</td>
+                        <td>this was a nice hike</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQ4VsKUw1DjXyLGTvf2PMxXi-dBoSkYlE&libraries=places&callback=initAutocomplete"
-        async defer></script>
+
+        
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="assets/javascript/script.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="assets/javascript/script.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQ4VsKUw1DjXyLGTvf2PMxXi-dBoSkYlE&libraries=places&callback=initAutocomplete"
+            async defer></script>
 </body>
 
 </html>
