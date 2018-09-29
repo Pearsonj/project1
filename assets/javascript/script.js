@@ -5,22 +5,20 @@
 
 
 
- // Initialize Firebase
- var config = {
+// Initialize Firebase
+var config = {
     apiKey: "AIzaSyCzLac33ASAxf7qs23JEgp8cCib3Mf6DDo",
     authDomain: "hikingproject1.firebaseapp.com",
     databaseURL: "https://hikingproject1.firebaseio.com",
     projectId: "hikingproject1",
     storageBucket: "hikingproject1.appspot.com",
     messagingSenderId: "204744596898"
-  };
-  firebase.initializeApp(config);
+};
+firebase.initializeApp(config);
 
-  var database = firebase.database();
+var database = firebase.database();
 
-  
-
-$('#submit').on('click', function(){
+$('#submit').on('click', function () {
     var name = $('.nameInput').val();
     var comment = $('#comment').val();
 
@@ -28,12 +26,10 @@ $('#submit').on('click', function(){
     //     name: name
     // };
 
-    database.ref().update({
+    database.ref().push({
         name: name,
         comment: comment,
-        Trail: arrTrail
     });
-
 
     console.log(name);
     console.log(comment);
@@ -44,6 +40,9 @@ $('#submit').on('click', function(){
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 let HikeObj = [];
 let arrTrail = [];
+
+
+
 // Build a query with latitude, longitude and max distance 
 function buildQueryURL() {
     // var queryURL = "https://www.hikingproject.com/data/get-trails?lat=40.0274&lon=-105.2519&maxDistance=10&key=200361824-e97f84319ca562e9ed253ce31ddb2d4c";
@@ -82,16 +81,14 @@ function getTrailsbyLocation(HikeData) {
         let trail = {
             "name": element.name,
             "latitude": element.latitude,
-            "longitude": element.longitude,
-            "conditions": element.conditons
+            "longitude": element.longitude
 
-        
+
         };
         // database.ref().push({
-            
+
         // });
         arrTrail.push(trail);
-
 
         // This works: iterate through the object properties, values =>
         // for (const x in element) {
@@ -120,6 +117,9 @@ function getTrailsbyLocation(HikeData) {
     //     $("#tbody").append(tableRow);
     // }
 
+    database.ref().update({
+        trails: arrTrail
+    });
 }
 
 
@@ -143,8 +143,6 @@ function getTrailsByID(HikingData) {
             console.log(element.id);
             console.log(element.conditionDate);
             console.log("------------------------------------");
-
-
         }
 
     }
@@ -169,6 +167,8 @@ $.ajax({
     url: myURL,
     method: "GET"
 }).then(getTrailsbyLocation);
+
+
 
 
 
