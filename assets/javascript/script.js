@@ -3,6 +3,42 @@
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 
+
+
+ // Initialize Firebase
+ var config = {
+    apiKey: "AIzaSyCzLac33ASAxf7qs23JEgp8cCib3Mf6DDo",
+    authDomain: "hikingproject1.firebaseapp.com",
+    databaseURL: "https://hikingproject1.firebaseio.com",
+    projectId: "hikingproject1",
+    storageBucket: "hikingproject1.appspot.com",
+    messagingSenderId: "204744596898"
+  };
+  firebase.initializeApp(config);
+
+  var database = firebase.database();
+
+  
+
+$('#submit').on('click', function(){
+    var name = $('.nameInput').val();
+    var comment = $('#comment').val();
+
+    // var nameDate = {
+    //     name: name
+    // };
+
+    database.ref().update({
+        name: name,
+        comment: comment,
+        Trail: arrTrail
+    });
+
+
+    console.log(name);
+    console.log(comment);
+});
+
 // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
@@ -46,8 +82,14 @@ function getTrailsbyLocation(HikeData) {
         let trail = {
             "name": element.name,
             "latitude": element.latitude,
-            "longitude": element.longitude
+            "longitude": element.longitude,
+            "conditions": element.conditons
+
+        
         };
+        // database.ref().push({
+            
+        // });
         arrTrail.push(trail);
 
 

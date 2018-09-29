@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 
 </head>
 
@@ -44,11 +45,11 @@
             <div id="commentSection">
                 <p id="nameInput">
                     <span>Name:</span>
-                    <input class="input" type="text" placeholder="Text input">
+                    <input class="nameInput" type="text" placeholder="Text input">
                 </p>
                 <span>Leave a commet!</span>
                 <textarea name="comment" class="fas fa-align-left" id="comment" cols="53" rows="5"></textarea>
-                <a id="button">Submit</a>
+                <a id="submit">Submit</a>
 
                 <table id="displayComments" style="width: 100%">
                     <tr>
