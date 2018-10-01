@@ -3,7 +3,9 @@
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 
-
+// change history
+// Date     By Description
+// 2018-10-01 ERE - Add listener to markers 
 
 // Initialize Firebase
 var config = {
@@ -152,6 +154,15 @@ function getTrailsByID(HikingData) {
     // console.log(HikingData.response.doc[0]);
 }
 
+        
+//  Call this function on Marker Click Events //20181001ERE
+function markerOnClick() {
+    console.log("158 title; ", this.title);
+    map.setZoom(11);
+    map.setCenter(marker.getPosition());
+
+}
+
 // this is getTrailsByID
 // Make the AJAX request to the API - GETs the JSON data at the queryURL.
 // The data then gets passed as an argument to the getTrailsByID function
@@ -219,13 +230,29 @@ function initAutocomplete() {
                 console.log('lng ' + element.val().longitude);
                 console.log('lat ' + element.val().latitude);
                 console.log(position);
-                
-                markers.push(new google.maps.Marker({
+
+                //20181001ERE
+                //  add costant named marker - create the marker 
+                const marker = new google.maps.Marker({
                     map: map,
                     icon: icon,
                     title: element.val().name,
                     position: position
-                }));
+                });
+
+                //20181001ERE
+                marker.addListener('click', function() {
+                    markerOnClick();
+                    
+                });
+
+
+                // markers.push(new google.maps.Marker({
+                //     map: map,
+                //     icon: icon,
+                //     title: element.val().name,
+                //     position: position
+                // }));
 
                 console.log(element.val());
             });
