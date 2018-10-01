@@ -8,6 +8,8 @@
 // 2018-10-01 ERE - Add listener to markers 
 
 // Initialize Firebase
+//20181001jp
+$('.infoBox').hide();
 var config = {
     apiKey: "AIzaSyCzLac33ASAxf7qs23JEgp8cCib3Mf6DDo",
     authDomain: "hikingproject1.firebaseapp.com",
@@ -83,7 +85,15 @@ function getTrailsbyLocation(HikeData) {
         let trail = {
             "name": element.name,
             "latitude": element.latitude,
-            "longitude": element.longitude
+            "longitude": element.longitude,
+            "image": element.imgMedium,
+            "rating": element.stars,
+            "difficulty": element.difficulty,
+            "summary": element.summary,
+            "conditions": element.conditionStatus,
+            "ascent": element.ascent,
+            "location": element.location,
+            "length": element.length
 
 
         };
@@ -154,14 +164,17 @@ function getTrailsByID(HikingData) {
     // console.log(HikingData.response.doc[0]);
 }
 
-        
-//  Call this function on Marker Click Events //20181001ERE
-function markerOnClick() {
-    console.log("158 title; ", this.title);
-    map.setZoom(11);
-    map.setCenter(marker.getPosition());
 
-}
+//  Call this function on Marker Click Events //20181001ERE
+// function markerOnClick() {
+//     console.log(this.name.val());
+
+//     // console.log("158 title; ", this[i]);
+
+//     // map.setZoom(11);
+//     // map.setCenter(marker.getPosition());
+
+// }
 
 // this is getTrailsByID
 // Make the AJAX request to the API - GETs the JSON data at the queryURL.
@@ -203,7 +216,7 @@ function initAutocomplete() {
 
 
     function mapMarkers() {
-        
+
 
 
         database.ref().once("value", function (snapshot) {
@@ -240,10 +253,26 @@ function initAutocomplete() {
                     position: position
                 });
 
+
+
                 //20181001ERE
-                marker.addListener('click', function() {
-                    markerOnClick();
-                    
+
+
+
+                marker.addListener('click', function () {
+                    console.log(element.val().name);
+                    console.log(element.val());
+                    $('.infoBox').animate({
+                        height: 'show'
+                    });
+                    $('#trailName').html(element.val().name);
+                    $('#image').attr('src', element.val().image);
+                    $('#rating').html(element.val().rating);
+                    $('#summary').html(element.val().summary);
+                    $('#condition').html(element.val().conditions);
+                    $('#ascent').html(element.val().ascent + "ft");
+                    $('#location').html(element.val().location);
+                    $('#length').html(element.val().length + "miles");
                 });
 
 
