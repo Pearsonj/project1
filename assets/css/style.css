@@ -38,6 +38,16 @@ body {
     left: 50%;
 }
 
+.keyImgs{
+    font-size: 30px;
+    float: right;
+}
+
+.key{
+    height: 50px;
+    widows: auto;
+    
+}
 
 
 .map {
