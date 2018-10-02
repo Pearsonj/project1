@@ -40,9 +40,9 @@ function buildQueryURL() {
 
     queryParms.lat = "47.502357";
     queryParms.lon = "-121.797867";
-    queryParms.maxDistance = "10";
+    queryParms.maxDistance = "200";
     queryParms.key = "200361824-e97f84319ca562e9ed253ce31ddb2d4c";
-    queryParms.maxResults = "20";
+    queryParms.maxResults = "200";
     console.log("---------------\nURL: " + queryURL + "\n---------------");
     console.log(queryURL + $.param(queryParms));
 
@@ -123,23 +123,15 @@ $.ajax({
 function initAutocomplete() {
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
+        zoom: 9,
         center: {
-            lat: 47.502357,
-            lng: -121.797867
+            lat: 47.608013,
+            lng:  -122.335167
         },
         mapTypeId: 'terrain'
     });
 
-    var marker = new google.maps.Marker({
-
-        position: {
-            lat: 47.502357,
-            lng: -121.797867
-        },
-        map: map,
-        title: 'Hello World!'
-    });
+    
 
 
     function mapMarkers() {
@@ -189,7 +181,7 @@ function initAutocomplete() {
                         break;
 
                     case "black":
-                    case "blackBlack":
+                    case "dblack":
 
                         var icon = {
                             url: 'assets/images/pic4.gif',
