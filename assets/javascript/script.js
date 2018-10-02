@@ -227,15 +227,7 @@ function initAutocomplete() {
             //     // console.log(childSnapshot.val());
             //     return childSnapshot.val();
             console.log(trailInfo.val());
-            var icon = {
-                url: 'assets/images/pic.png',
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            }
-
-
+          
             var markers = [];
 
             trailInfo.forEach(element => {
@@ -243,6 +235,47 @@ function initAutocomplete() {
                 console.log('lng ' + element.val().longitude);
                 console.log('lat ' + element.val().latitude);
                 console.log(position);
+
+                switch (element.val().difficulty) {
+                    case "green":
+                    case "greenBlue":
+
+                        var icon = {
+                            url: 'assets/images/pic8.gif',
+                            size: new google.maps.Size(75, 75),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(20, 35),
+                            scaledSize: new google.maps.Size(55, 55)
+                        }
+                    
+                    break;
+
+                    case "blue":
+                    case "blueBlack":
+
+                        var icon = {
+                            url: 'assets/images/pic9.gif',
+                            size: new google.maps.Size(75, 75),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(20, 35),
+                            scaledSize: new google.maps.Size(55, 55)
+                        }
+                    
+                    break;
+
+                    case "black":
+                    case "blackBlack":
+
+                        var icon = {
+                            url: 'assets/images/pic4.gif',
+                            size: new google.maps.Size(75, 75),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(20, 35),
+                            scaledSize: new google.maps.Size(55, 55)
+                        }
+                    
+                    break;
+                }
 
                 //20181001ERE
                 //  add costant named marker - create the marker 
