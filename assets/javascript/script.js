@@ -14,12 +14,14 @@ var database = firebase.database();
 $('#submit').on('click', function () {
     var name = $('.nameInput').val();
     var comment = $('#comment').val();
+    let hikeName1 = $("#trailName").text();
 
-
-
-    database.ref().push({
-        name: name,
+//20181003ERE - Push posts to firebase
+    database.ref().child("posts/post").push({
+        userName: name,
+        timestamp: moment().format("YYYY-MM-DD HH:MM:SS").toString(),
         comment: comment,
+        hikeName: hikeName1
     });
 
     console.log(name);
@@ -213,6 +215,43 @@ function initAutocomplete() {
                     $('#ascent').html(element.val().ascent + "ft");
                     $('#location').html(element.val().location);
                     $('#length').html(element.val().length + "miles");
+
+                    // let arrPosts =database.ref("posts/post").orderByChild("name").equalTo(element.val().name);
+                    // console.log(arrPosts);
+                    // console.log(arrPosts.val());
+                    let trlName = element.val().name;
+                    console.log("222 TrailName: ", element.val().name);
+                    
+                    let myRef = database.ref("posts");
+
+                    myRef.child("post").once("value", function(imageSnap) {
+                        imageSnap.forEach(function(child){
+                            console.log("228 child.val():",  child.val());
+                            if (child.val().hikeName = trlName) {
+                                const commentTR = $("<tr>");
+                                const userNameTD = $("<td>").text(child.val().userName);
+                                const commentTD = $("<td>").text(child.val().comment);
+                                commentTR.append(userNameTD);
+                                commentTR.append(commentTD);
+                                $("#displayComments").append(commentTR);
+                            }
+                            
+                        });
+                    });
+
+                    // myRef.child("post").orderByChild('name').equalTo(element.val().name).once("value", function(imageSnap) {
+                    //     imageSnap.forEach(function(child){
+                    //         console.log("228 child.val():",  child.val());
+                    //     });
+                    // });
+                    // database.ref("posts/post").orderByChild('name').equalTo(element.val().name).once('value', function(imageSnap){
+                    //     imageSnap.forEach(function(child) {
+                    //         console.log("225: ", child.val().name);
+                    //     //   var image = child.child('url').val();
+                    //     //   leftImg.src=image; 
+                    //     })
+                    //  });
+
                 });
                 console.log(element.val());
             });
