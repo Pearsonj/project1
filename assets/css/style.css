@@ -91,10 +91,15 @@ body {
     margin-top: 5%;
     background-color: rgba(0, 0, 0, 0.021);
     color: white;
+    border-collapse: separate;
+    border-spacing: 37px;
 }
 
-tr:nth-child(even){
-    background-color:black;
+
+
+tbody{
+    border-collapse: separate;
+    border-spacing: 15px;
 }
 
 #comment-display {

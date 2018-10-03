@@ -237,6 +237,7 @@ function initAutocomplete() {
                                 $("#tableBodyComments").append(commentTR);
                             }
                             
+                            
                         });
                     });
 
