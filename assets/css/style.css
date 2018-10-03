@@ -87,23 +87,44 @@ body {
     margin-top: 10px;
 }
 
-#displayComments {
-    margin-top: 5%;
-    background-color: rgba(0, 0, 0, 0.021);
+#displayComments{
+    border-collapse: separate;
+    border-spacing: 2px;
+    width: 103%;
+}
+
+
+#tableBodyComments{
+    word-break: break-all;
     color: white;
-    border-collapse: separate;
-    border-spacing: 37px;
+    margin-top: 4%;
+    
+}
+
+#tableBodyComments tr :nth-child(even){
+    background-color: #4242498a;
+}
+
+table th{
+    width: 71px;
+}
+
+table td{
+    width: 0px;
+}
+
+.time{
+    display: inline;
 }
 
 
 
-tbody{
-    border-collapse: separate;
-    border-spacing: 15px;
-}
+
+
+
 
 #comment-display {
-    margin-top: 5%;
+    
     background-color: rgba(255, 255, 255, 0.658);
     color: black;
 }
