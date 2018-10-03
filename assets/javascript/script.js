@@ -224,16 +224,17 @@ function initAutocomplete() {
                     
                     let myRef = database.ref("posts");
 
+                    $("#tableBodyComments").empty();
                     myRef.child("post").once("value", function(imageSnap) {
                         imageSnap.forEach(function(child){
                             console.log("228 child.val():",  child.val());
-                            if (child.val().hikeName = trlName) {
+                            if (child.val().hikeName === trlName) {
                                 const commentTR = $("<tr>");
                                 const userNameTD = $("<td>").text(child.val().userName);
                                 const commentTD = $("<td>").text(child.val().comment);
                                 commentTR.append(userNameTD);
                                 commentTR.append(commentTD);
-                                $("#displayComments").append(commentTR);
+                                $("#tableBodyComments").append(commentTR);
                             }
                             
                         });
