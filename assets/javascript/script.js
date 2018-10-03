@@ -15,8 +15,10 @@ $('#submit').on('click', function () {
     var name = $('.nameInput').val();
     var comment = $('#comment').val();
     let hikeName1 = $("#trailName").text();
+    $('.nameInput').val("");
+    $('#comment').val("");
 
-//20181003ERE - Push posts to firebase
+    //20181003ERE - Push posts to firebase
     database.ref().child("posts/post").push({
         userName: name,
         timestamp: moment().format("YYYY-MM-DD HH:MM:SS").toString(),
@@ -31,6 +33,56 @@ $('#submit').on('click', function () {
 
 let HikeObj = [];
 let arrTrail = [];
+let myRef = database.ref("posts");
+
+database.ref().on('value', function (snapshot) {
+    $("#tableBodyComments").empty();
+    myRef.child("post").once("value", function (imageSnap) {
+        imageSnap.forEach(function (child) {
+            console.log("228 child.val():", child.val());
+            let trailName = $('#trailName').text();
+            console.log("trailName: " + trailName)
+            if (child.val().hikeName === trailName) {
+                const commentTR = $("<tr>");
+                const userNameTD = $("<td>").text(child.val().userName);
+                const commentTD = $("<td>").text(child.val().comment);
+                commentTR.append(userNameTD);
+                commentTR.append(commentTD);
+                $("#tableBodyComments").append(commentTR);
+            }
+
+        });
+
+    });
+})
+
+
+function getComments(trlName) {
+    // let trlName = element.val().name;
+
+    // console.log("222 TrailName: ", element.val().name);
+
+   
+
+    $("#tableBodyComments").empty();
+    myRef.child("post").once("value", function (imageSnap) {
+        imageSnap.forEach(function (child) {
+            console.log("228 child.val():", child.val());
+            if (child.val().hikeName === trlName) {
+                const commentTR = $("<tr>");
+                const userNameTD = $("<td>").text(child.val().userName);
+                const commentTD = $("<td>").text(child.val().comment);
+                commentTR.append(userNameTD);
+                commentTR.append(commentTD);
+                $("#tableBodyComments").append(commentTR);
+            }
+
+
+
+        });
+
+    });
+}
 
 
 
@@ -42,9 +94,9 @@ function buildQueryURL() {
 
     queryParms.lat = "47.502357";
     queryParms.lon = "-121.797867";
-    queryParms.maxDistance = "200";
+    queryParms.maxDistance = "100";
     queryParms.key = "200361824-e97f84319ca562e9ed253ce31ddb2d4c";
-    queryParms.maxResults = "200";
+    queryParms.maxResults = "100";
     console.log("---------------\nURL: " + queryURL + "\n---------------");
     console.log(queryURL + $.param(queryParms));
 
@@ -128,12 +180,12 @@ function initAutocomplete() {
         zoom: 9,
         center: {
             lat: 47.608013,
-            lng:  -122.335167
+            lng: -122.335167
         },
         mapTypeId: 'terrain'
     });
 
-    
+
 
 
     function mapMarkers() {
@@ -216,30 +268,15 @@ function initAutocomplete() {
                     $('#location').html(element.val().location);
                     $('#length').html(element.val().length + "miles");
 
+
+                    getComments(element.val().name);
+
+
                     // let arrPosts =database.ref("posts/post").orderByChild("name").equalTo(element.val().name);
                     // console.log(arrPosts);
                     // console.log(arrPosts.val());
-                    let trlName = element.val().name;
-                    console.log("222 TrailName: ", element.val().name);
-                    
-                    let myRef = database.ref("posts");
 
-                    $("#tableBodyComments").empty();
-                    myRef.child("post").once("value", function(imageSnap) {
-                        imageSnap.forEach(function(child){
-                            console.log("228 child.val():",  child.val());
-                            if (child.val().hikeName === trlName) {
-                                const commentTR = $("<tr>");
-                                const userNameTD = $("<td>").text(child.val().userName);
-                                const commentTD = $("<td>").text(child.val().comment);
-                                commentTR.append(userNameTD);
-                                commentTR.append(commentTD);
-                                $("#tableBodyComments").append(commentTR);
-                            }
-                            
-                            
-                        });
-                    });
+
 
                     // myRef.child("post").orderByChild('name').equalTo(element.val().name).once("value", function(imageSnap) {
                     //     imageSnap.forEach(function(child){
