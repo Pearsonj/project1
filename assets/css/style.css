@@ -89,6 +89,12 @@ body {
 
 #displayComments {
     margin-top: 5%;
+    background-color: rgba(0, 0, 0, 0.021);
+    color: white;
+}
+
+tr:nth-child(even){
+    background-color:black;
 }
 
 #comment-display {
