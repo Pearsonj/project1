@@ -1,14 +1,92 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Hiking App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
-    <script src="assets/javascript/script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+
 </head>
+
 <body>
-    
+    <div class="column map">
+        <header>
+            <p class="header">
+                The Hiking App
+                <span class="keyImgs">
+                    <img class="key" src="assets/images/pic8.gif" alt="">
+                    <span>Easy |</span>
+                    <img class="key" src="assets/images/pic9.gif" alt="">
+                    <span>Medium |</span>
+                    <img class="key" src="assets/images/pic4.gif" alt="">
+                    <span>Hard</span>
+                </span>
+            </p>
+        </header>
+        <div id="map"></div>
+
+        <div class="column infoBox">
+            <button type="button" class="close" aria-label="Close">
+                Close Window
+            </button>
+
+            <img id="image" src="https://53744bf91d44b81762e0-fbbc959d4e21c00b07dbe9c75f9c0b63.ssl.cf3.rackcdn.com/media/F3/F32D5164-7D9F-4E46-BFFD-42F3C7852731/Presentation.Large/Adult-female-Atlantic-spotted-dolphin-with-calf.jpg"
+                alt="">
+            <div id="info">
+                <span>Trail Name:</span>
+                <p id="trailName"> here is some info</p>
+                <span>Trail Rating:</span>
+                <p id="rating"> here is some info</p>
+                <span>Condition:</span>
+                <p id="condition">here is some info</p>
+                <span>Trail Summary:</span>
+                <p id="summary">here is some info</p>
+                <span>Trail Ascent:</span>
+                <p id="ascent">here is some info</p>
+                <span>Trail Location:</span>
+                <p id="location">here is some info</p>
+                <span>Trail length:</span>
+                <p id="length">here is some info</p>
+            </div>
+
+            <div id="commentSection">
+                <p id="nameInput">
+                    <span>Name:</span><br>
+                    <input class="nameInput" type="text" placeholder="Name">
+                </p>
+                <span>Leave a comment!</span>
+                <textarea name="comment" class="fas fa-align-left" id="comment" cols="53" rows="5" placeholder="Tell Us About Your Experience"></textarea>
+                <a id="submit">Submit</a>
+
+                <table id="displayComments" style="width: 100%">
+                    
+                        <th>Name:</th>
+                        <th>comment:</th>
+                    
+                    <tbody id="tableBodyComments">
+                        <!-- <tr id="comment-display">
+                        <td>josh</td>
+                        <td>this was a nice hike</td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Moment.js -->
+        <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+        <script src="assets/javascript/script.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQ4VsKUw1DjXyLGTvf2PMxXi-dBoSkYlE&libraries=places&callback=initAutocomplete"
+            async defer></script>
 </body>
+
 </html>
