@@ -17,7 +17,6 @@ $('#submit').on('click', function () {
     let hikeName1 = $("#trailName").text();
     $('.nameInput').val("");
     $('#comment').val("");
-
     //20181003ERE - Push posts to firebase
     database.ref().child("posts/post").push({
         userName: name,
@@ -25,16 +24,12 @@ $('#submit').on('click', function () {
         comment: comment,
         hikeName: hikeName1
     });
-
     console.log(name);
     console.log(comment);
 });
-
-
 let HikeObj = [];
 let arrTrail = [];
 let myRef = database.ref("posts");
-
 database.ref().on('value', function (snapshot) {
     $("#tableBodyComments").empty();
     myRef.child("post").once("value", function (imageSnap) {
@@ -50,19 +45,10 @@ database.ref().on('value', function (snapshot) {
                 commentTR.append(commentTD);
                 $("#tableBodyComments").append(commentTR);
             }
-
         });
-
     });
 })
-
-
 function getComments(trlName) {
-    // let trlName = element.val().name;
-
-    // console.log("222 TrailName: ", element.val().name);
-
-   
 
     $("#tableBodyComments").empty();
     myRef.child("post").once("value", function (imageSnap) {
@@ -76,16 +62,9 @@ function getComments(trlName) {
                 commentTR.append(commentTD);
                 $("#tableBodyComments").append(commentTR);
             }
-
-
-
         });
-
     });
 }
-
-
-
 
 function buildQueryURL() {
 
@@ -101,9 +80,7 @@ function buildQueryURL() {
     console.log(queryURL + $.param(queryParms));
 
     return queryURL + $.param(queryParms);
-
 }
-
 function getTrailsbyLocation(HikeData) {
     console.log(HikeData);
     console.log(HikeData.trails);
@@ -113,7 +90,6 @@ function getTrailsbyLocation(HikeData) {
         console.log("for In: ", element.longitude + ":" + element.latitude);
         console.log("Trail key: value --", element1 + " : " + element[element1]);
     }
-
     for (let i = 0; i < HikeData.trails.length; i++) {
         const element = HikeData.trails[i];
         console.log("for Loop: ", element.longitude + ":" + element.latitude);
@@ -130,7 +106,6 @@ function getTrailsbyLocation(HikeData) {
             "location": element.location,
             "length": element.length
         };
-
         arrTrail.push(trail);
     }
     console.log("arrTrails: ", arrTrail);
@@ -139,32 +114,14 @@ function getTrailsbyLocation(HikeData) {
         trails: arrTrail
     });
 }
-
-
 function getTrailsByID(HikingData) {
 
     console.log("71 HikingData: ", HikingData);
     console.log("------------------------------------");
 
-    for (x in HikingData) {
-        const element = HikingData[x];
-        if ((typeof element.name) !== "undefined") {
-            console.log("name: ", element.name);
-            console.log(element.conditionColor);
-            console.log(element.conditionDetails);
-            console.log(element.conditionStatus);
-            console.log(element.conditionImg);
-            console.log(element.id);
-            console.log(element.conditionDate);
-            console.log("------------------------------------");
-        }
-
-    }
-
+    
     console.log(HikingData[0]);
-
 }
-
 
 let myURL = buildQueryURL();
 console.log("myURL", myURL);
@@ -172,7 +129,6 @@ $.ajax({
     url: myURL,
     method: "GET"
 }).then(getTrailsbyLocation);
-
 
 function initAutocomplete() {
 
@@ -185,12 +141,7 @@ function initAutocomplete() {
         mapTypeId: 'terrain'
     });
 
-
-
-
     function mapMarkers() {
-
-
 
         database.ref().once("value", function (snapshot) {
             console.log('snapshot ' + snapshot.val().trails[0].name + snapshot.val().trails[0].longitude);
@@ -252,7 +203,6 @@ function initAutocomplete() {
                     title: element.val().name,
                     position: position
                 });
-
                 marker.addListener('click', function () {
                     console.log(element.val().name);
                     console.log(element.val());
@@ -267,40 +217,14 @@ function initAutocomplete() {
                     $('#ascent').html(element.val().ascent + "ft");
                     $('#location').html(element.val().location);
                     $('#length').html(element.val().length + "miles");
-
-
                     getComments(element.val().name);
-
-
-                    // let arrPosts =database.ref("posts/post").orderByChild("name").equalTo(element.val().name);
-                    // console.log(arrPosts);
-                    // console.log(arrPosts.val());
-
-
-
-                    // myRef.child("post").orderByChild('name').equalTo(element.val().name).once("value", function(imageSnap) {
-                    //     imageSnap.forEach(function(child){
-                    //         console.log("228 child.val():",  child.val());
-                    //     });
-                    // });
-                    // database.ref("posts/post").orderByChild('name').equalTo(element.val().name).once('value', function(imageSnap){
-                    //     imageSnap.forEach(function(child) {
-                    //         console.log("225: ", child.val().name);
-                    //     //   var image = child.child('url').val();
-                    //     //   leftImg.src=image; 
-                    //     })
-                    //  });
-
                 });
                 console.log(element.val());
             });
-
         });
-
     }
     mapMarkers();
 }
-
 $('.dropdown-menu').hide();
 
 $('.close').click(function () {
