@@ -11,126 +11,145 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-$('#submit').on('click', function () {
-    var name = $('.nameInput').val();
-    var comment = $('#comment').val();
-    let hikeName1 = $("#trailName").text();
-    $('.nameInput').val("");
-    $('#comment').val("");
-    //20181003ERE - Push posts to firebase
-    database.ref().child("posts/post").push({
-        userName: name,
-        timestamp: moment().format("YYYY-MM-DD HH:MM:SS").toString(),
-        comment: comment,
-        hikeName: hikeName1
-    });
-    console.log(name);
-    console.log(comment);
-});
-let HikeObj = [];
-let arrTrail = [];
-let myRef = database.ref("posts");
-database.ref().on('value', function (snapshot) {
-    $("#tableBodyComments").empty();
-    myRef.child("post").once("value", function (imageSnap) {
-        imageSnap.forEach(function (child) {
-            console.log("228 child.val():", child.val());
-            let trailName = $('#trailName').text();
-            console.log("trailName: " + trailName)
-            if (child.val().hikeName === trailName) {
-                const commentTR = $("<tr>");
-                const userNameTD = $("<td>").text(child.val().userName);
-                const commentTD = $("<td>").text(child.val().comment);
-                commentTR.append(userNameTD);
-                commentTR.append(commentTD);
-                $("#tableBodyComments").append(commentTR);
-            }
-        });
-    });
-})
-function getComments(trlName) {
-
-    $("#tableBodyComments").empty();
-    myRef.child("post").once("value", function (imageSnap) {
-        imageSnap.forEach(function (child) {
-            console.log("228 child.val():", child.val());
-            if (child.val().hikeName === trlName) {
-                const commentTR = $("<tr>");
-                const userNameTD = $("<td>").text(child.val().userName);
-                const commentTD = $("<td>").text(child.val().comment);
-                commentTR.append(userNameTD);
-                commentTR.append(commentTD);
-                $("#tableBodyComments").append(commentTR);
-            }
-        });
-    });
-}
-
-function buildQueryURL() {
-
-    var queryURL = "https://www.hikingproject.com/data/get-trails?";
-    let queryParms = {};
-
-    queryParms.lat = "47.502357";
-    queryParms.lon = "-121.797867";
-    queryParms.maxDistance = "100";
-    queryParms.key = "200361824-e97f84319ca562e9ed253ce31ddb2d4c";
-    queryParms.maxResults = "100";
-    console.log("---------------\nURL: " + queryURL + "\n---------------");
-    console.log(queryURL + $.param(queryParms));
-
-    return queryURL + $.param(queryParms);
-}
-function getTrailsbyLocation(HikeData) {
-    console.log(HikeData);
-    console.log(HikeData.trails);
-    console.log(HikeData.trails.length);
-    for (x in HikeData.trail) {
-        const element = HikeData.trail[x];
-        console.log("for In: ", element.longitude + ":" + element.latitude);
-        console.log("Trail key: value --", element1 + " : " + element[element1]);
-    }
-    for (let i = 0; i < HikeData.trails.length; i++) {
-        const element = HikeData.trails[i];
-        console.log("for Loop: ", element.longitude + ":" + element.latitude);
-        let trail = {
-            "name": element.name,
-            "latitude": element.latitude,
-            "longitude": element.longitude,
-            "image": element.imgMedium,
-            "rating": element.stars,
-            "difficulty": element.difficulty,
-            "summary": element.summary,
-            "conditions": element.conditionStatus,
-            "ascent": element.ascent,
-            "location": element.location,
-            "length": element.length
-        };
-        arrTrail.push(trail);
-    }
-    console.log("arrTrails: ", arrTrail);
-
-    database.ref().update({
-        trails: arrTrail
-    });
-}
-function getTrailsByID(HikingData) {
-
-    console.log("71 HikingData: ", HikingData);
-    console.log("------------------------------------");
-
-    
-    console.log(HikingData[0]);
-}
-
-let myURL = buildQueryURL();
-console.log("myURL", myURL);
-$.ajax({
-    url: myURL,
-    method: "GET"
-}).then(getTrailsbyLocation);
-
 function initAutocomplete() {
+
+    $('#submit').on('click', function () {
+        var name = $('.nameInput').val();
+        var comment = $('#comment').val();
+        let hikeName1 = $("#trailName").text();
+        $('.nameInput').val("");
+        $('#comment').val("");
+        //20181003ERE - Push posts to firebase
+        database.ref().child("posts/post").push({
+            userName: name,
+            timestamp: moment().format("YYYY-MM-DD HH:MM:SS").toString(),
+            comment: comment,
+            hikeName: hikeName1
+        });
+        console.log(name);
+        console.log(comment);
+    });
+    let HikeObj = [];
+    let arrTrail = [];
+
+    let myRef = database.ref("posts");
+    let isFancySave;
+    let isFirstTime = true;
+    let myIsFancy;
+
+    database.ref().on('value', function (snapshot) {
+
+        myIsFancy = snapshot.val().isFancy;
+        console.log("myIsFancy", myIsFancy);
+
+        if (isFirstTime === true) {
+            isFirstTime = false;
+            isFancySave = myIsFancy;
+
+        } else if (!(myIsFancy === isFancySave)){
+            window.location.reload();
+        }
+
+        $("#tableBodyComments").empty();
+        myRef.child("post").once("value", function (imageSnap) {
+            imageSnap.forEach(function (child) {
+                console.log("228 child.val():", child.val());
+                let trailName = $('#trailName').text();
+                console.log("trailName: " + trailName)
+                if (child.val().hikeName === trailName) {
+                    const commentTR = $("<tr>");
+                    const userNameTD = $("<td>").text(child.val().userName);
+                    const commentTD = $("<td>").text(child.val().comment);
+                    commentTR.append(userNameTD);
+                    commentTR.append(commentTD);
+                    $("#tableBodyComments").append(commentTR);
+                }
+            });
+        });
+    })
+    function getComments(trlName) {
+
+        $("#tableBodyComments").empty();
+        myRef.child("post").once("value", function (imageSnap) {
+            imageSnap.forEach(function (child) {
+                console.log("228 child.val():", child.val());
+                if (child.val().hikeName === trlName) {
+                    const commentTR = $("<tr>");
+                    const userNameTD = $("<td>").text(child.val().userName);
+                    const commentTD = $("<td>").text(child.val().comment);
+                    commentTR.append(userNameTD);
+                    commentTR.append(commentTD);
+                    $("#tableBodyComments").append(commentTR);
+                }
+            });
+        });
+    }
+
+    function buildQueryURL() {
+
+        var queryURL = "https://www.hikingproject.com/data/get-trails?";
+        let queryParms = {};
+
+        queryParms.lat = "47.502357";
+        queryParms.lon = "-121.797867";
+        queryParms.maxDistance = "100";
+        queryParms.key = "200361824-e97f84319ca562e9ed253ce31ddb2d4c";
+        queryParms.maxResults = "100";
+        console.log("---------------\nURL: " + queryURL + "\n---------------");
+        console.log(queryURL + $.param(queryParms));
+
+        return queryURL + $.param(queryParms);
+    }
+    function getTrailsbyLocation(HikeData) {
+        console.log(HikeData);
+        console.log(HikeData.trails);
+        console.log(HikeData.trails.length);
+        for (x in HikeData.trail) {
+            const element = HikeData.trail[x];
+            console.log("for In: ", element.longitude + ":" + element.latitude);
+            console.log("Trail key: value --", element1 + " : " + element[element1]);
+        }
+        for (let i = 0; i < HikeData.trails.length; i++) {
+            const element = HikeData.trails[i];
+            console.log("for Loop: ", element.longitude + ":" + element.latitude);
+            let trail = {
+                "name": element.name,
+                "latitude": element.latitude,
+                "longitude": element.longitude,
+                "image": element.imgMedium,
+                "rating": element.stars,
+                "difficulty": element.difficulty,
+                "summary": element.summary,
+                "conditions": element.conditionStatus,
+                "ascent": element.ascent,
+                "location": element.location,
+                "length": element.length
+            };
+            arrTrail.push(trail);
+        }
+        console.log("arrTrails: ", arrTrail);
+
+        database.ref().update({
+            trails: arrTrail
+        });
+    }
+    function getTrailsByID(HikingData) {
+
+        console.log("71 HikingData: ", HikingData);
+        console.log("------------------------------------");
+
+        
+        console.log(HikingData[0]);
+    }
+
+    let myURL = buildQueryURL();
+    console.log("myURL", myURL);
+    $.ajax({
+        url: myURL,
+        method: "GET"
+    }).then(getTrailsbyLocation);
+
+// function initAutocomplete() {
 
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 9,
@@ -158,16 +177,62 @@ function initAutocomplete() {
                 console.log('lat ' + element.val().latitude);
                 console.log(position);
 
-                switch (element.val().difficulty) {
+                if(myIsFancy === true) {
+                    switch (element.val().difficulty) {
+                        case "green":
+                        case "greenBlue":
+    
+                            var icon = {
+                                url: 'assets/images/pic8.gif',
+                                size: new google.maps.Size(75, 75),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(20, 35),
+                                scaledSize: new google.maps.Size(55, 55)
+                            }
+    
+                            break;
+    
+                        case "blue":
+                        case "blueBlack":
+    
+                            var icon = {
+                                url: 'assets/images/pic9.gif',
+                                size: new google.maps.Size(75, 75),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(20, 35),
+                                scaledSize: new google.maps.Size(55, 55)
+                            }
+    
+                            break;
+    
+                        case "black":
+                        case "dblack":
+    
+                            var icon = {
+                                url: 'assets/images/pic4.gif',
+                                size: new google.maps.Size(75, 75),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(20, 35),
+                                scaledSize: new google.maps.Size(55, 55)
+                            }
+                            break;
+                    }
+                } else {
+                    $("#easyIcon").attr("src", "assets/images/easy.jpg");
+                    // $("#easyIcon").addClass("bg-primary");
+                    $("#mediumIcon").attr("src", "assets/images/medium.png");
+                    $("#hardIcon").attr("src", "assets/images/hard.png");
+
+                    switch (element.val().difficulty) {
                     case "green":
                     case "greenBlue":
 
                         var icon = {
-                            url: 'assets/images/pic8.gif',
+                            url: 'assets/images/easy.jpg',
                             size: new google.maps.Size(75, 75),
                             origin: new google.maps.Point(0, 0),
                             anchor: new google.maps.Point(20, 35),
-                            scaledSize: new google.maps.Size(55, 55)
+                            scaledSize: new google.maps.Size(45, 45)
                         }
 
                         break;
@@ -176,11 +241,11 @@ function initAutocomplete() {
                     case "blueBlack":
 
                         var icon = {
-                            url: 'assets/images/pic9.gif',
+                            url: 'assets/images/medium.png',
                             size: new google.maps.Size(75, 75),
                             origin: new google.maps.Point(0, 0),
                             anchor: new google.maps.Point(20, 35),
-                            scaledSize: new google.maps.Size(55, 55)
+                            scaledSize: new google.maps.Size(45, 45)
                         }
 
                         break;
@@ -189,13 +254,14 @@ function initAutocomplete() {
                     case "dblack":
 
                         var icon = {
-                            url: 'assets/images/pic4.gif',
+                            url: 'assets/images/hard.png',
                             size: new google.maps.Size(75, 75),
                             origin: new google.maps.Point(0, 0),
                             anchor: new google.maps.Point(20, 35),
-                            scaledSize: new google.maps.Size(55, 55)
+                            scaledSize: new google.maps.Size(45, 45)
                         }
                         break;
+                    }
                 }
                 const marker = new google.maps.Marker({
                     map: map,
@@ -231,5 +297,23 @@ $('.close').click(function () {
     $('.infoBox').animate({
         height: 'toggle'
     });
+
+});
+
+$('#fancy').on('click', function () {
+    
+    console.log("clicked on #fancy");
+    database.ref().once("value", function(snapshot){
+        const fancybool = snapshot.val().isFancy;
+        if (fancybool) {
+            database.ref().update({
+                isFancy: false
+            });
+        } else {
+            database.ref().update({
+                isFancy: true
+            }); 
+        }
+    })
 
 });
