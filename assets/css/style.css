@@ -21,6 +21,14 @@
     left: 50%;
 }
 
+#fancy{
+    background-color: black;
+    color: white;
+    position: absolute; 
+    left: 62%;
+    bottom: 49%;
+}
+
 a{
     color: white;
     background-color: rgba(0, 0, 0, 0.479);
