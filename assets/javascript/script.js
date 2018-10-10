@@ -33,27 +33,27 @@ function initAutocomplete() {
     let arrTrail = [];
 
     let myRef = database.ref("posts");
-    let isFancySave;
-    let isFirstTime = true;
     let myIsFancy;
 
-    database.ref().on('value', function (snapshot) {
+    let localIsFancy = localStorage.getItem("isFancy");
 
-        myIsFancy = snapshot.val().isFancy;
-        console.log("myIsFancy", myIsFancy);
-
-        if (isFirstTime === true) {
-            isFirstTime = false;
-            isFancySave = myIsFancy;
-
-        } else if (!(myIsFancy === isFancySave)){
-            window.location.reload();
+        console.log("42 localIsFancy", localIsFancy);
+        if (localIsFancy == null) {
+            myIsFancy = false;
+            localStorage.setItem("isFancy", "false");
+        } else if (localIsFancy === "false") {
+            myIsFancy = false;
+        } else {
+            myIsFancy = true;
+            localStorage.setItem("isFancy", "true");  
         }
+
+    database.ref().on('value', function (snapshot) {
 
         $("#tableBodyComments").empty();
         myRef.child("post").once("value", function (imageSnap) {
             imageSnap.forEach(function (child) {
-                console.log("228 child.val():", child.val());
+                // console.log("228 child.val():", child.val());
                 let trailName = $('#trailName').text();
                 console.log("trailName: " + trailName)
                 if (child.val().hikeName === trailName) {
@@ -173,11 +173,11 @@ function initAutocomplete() {
 
             trailInfo.forEach(element => {
                 var position = new google.maps.LatLng(element.val().latitude, element.val().longitude);
-                console.log('lng ' + element.val().longitude);
-                console.log('lat ' + element.val().latitude);
-                console.log(position);
+                // console.log('lng ' + element.val().longitude);
+                // console.log('lat ' + element.val().latitude);
+                // console.log(position);
 
-                if(myIsFancy === true) {
+                if(myIsFancy == true) {
                     switch (element.val().difficulty) {
                         case "green":
                         case "greenBlue":
@@ -285,7 +285,7 @@ function initAutocomplete() {
                     $('#length').html(element.val().length + "miles");
                     getComments(element.val().name);
                 });
-                console.log(element.val());
+                // console.log(element.val());
             });
         });
     }
@@ -303,17 +303,14 @@ $('.close').click(function () {
 $('#fancy').on('click', function () {
     
     console.log("clicked on #fancy");
-    database.ref().once("value", function(snapshot){
-        const fancybool = snapshot.val().isFancy;
-        if (fancybool) {
-            database.ref().update({
-                isFancy: false
-            });
-        } else {
-            database.ref().update({
-                isFancy: true
-            }); 
-        }
-    })
+    //ERE20181010 - move fancybutton logic to localstorage 
+    
+    const fancybool = localStorage.getItem("isFancy");
+    if (fancybool === "true") {
+       localStorage.setItem("isFancy", false); 
+    } else {
+        localStorage.setItem("isFancy", true);
+    }
+    window.location.reload();
 
 });
