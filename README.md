@@ -1,7 +1,8 @@
 # Take a hike
 
-## A Website to help users find hike in Washington state
+## A Website to help users find local hikes
 
+The app is written with HTML, CSS and JavaScript.
 This app is something we created to get info on trails in the seattle area.
 it will provide a quick list of things you might want to know about a hike
 people are able to comment about any hike on the map
