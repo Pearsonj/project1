@@ -1,5 +1,7 @@
 # Take a hike
 
+![TakeAHike_Large](https://user-images.githubusercontent.com/18557337/56518013-36290800-64f3-11e9-8c07-2933dc8527eb.png)
+
 ## A Website to help users find local hikes
 
 Team Members:
